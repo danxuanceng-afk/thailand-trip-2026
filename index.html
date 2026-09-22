@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>小曾和小谭的泰国旅行记</title>
+<style>
+:root{
+  --bg:#f6f7fb;--card:#fff;--ink:#20232a;--muted:#7b8190;--line:#e8eaf0;
+  --nav:#202438;--accent:#4967f2;--soft:#eef2ff;--warn:#fff4e8;--green:#eef8f1;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink)}
+.app{max-width:980px;margin:auto;min-height:100vh;padding-bottom:84px}
+.hero{padding:18px 18px 10px;background:linear-gradient(180deg,#fff,rgba(255,255,255,.5))}
+.hero h1{font-size:22px;margin:0 0 4px}.hero p{margin:0;color:var(--muted);font-size:13px}
+.topcard{margin:12px 14px 10px;background:white;border:1px solid var(--line);border-radius:18px;padding:14px}
+.row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.weather{text-align:right}
+.weather b{font-size:14px}.small{font-size:12px;color:var(--muted)}
+.tools{display:flex;gap:8px;overflow:auto;margin-top:12px}.tools button,.tools a{
+ border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:9px 12px;
+ font-size:12px;text-decoration:none;white-space:nowrap
+}
+.work{display:flex;gap:10px;padding:0 12px}
+.days{width:64px;flex:0 0 64px;background:var(--nav);border-radius:16px;padding:8px 5px;position:sticky;top:8px;align-self:flex-start}
+.day{width:100%;border:0;background:transparent;color:#c7cbda;border-radius:12px;padding:8px 2px;margin:2px 0;font-size:10px}
+.day b{display:block;font-size:18px;line-height:1.05;margin:2px 0}.day.active{background:var(--accent);color:#fff}
+.main{flex:1;min-width:0}.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}
+.activity{display:flex;gap:12px;align-items:center}.photo{width:108px;height:88px;border-radius:12px;object-fit:cover;flex:0 0 auto;background:#eee}
+.pill{display:inline-block;border-radius:999px;background:#f1f3f7;color:#747b8b;padding:3px 8px;font-size:11px;margin-bottom:6px}
+.title{font-weight:700;font-size:15px}.desc{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.55}
+.intro{margin-top:8px;border-top:1px dashed var(--line);padding-top:7px}
+.intro summary{cursor:pointer;font-size:12px;font-weight:700;color:#5d6472;list-style:none}
+.intro summary::-webkit-details-marker{display:none}
+.intro summary::before{content:"＋ ";color:var(--accent)}
+.intro[open] summary::before{content:"－ "}
+.intro p{margin:7px 0 0;font-size:12px;line-height:1.6;color:var(--muted)}
+.mapbtn{display:inline-block;margin-top:8px;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:12px;color:var(--ink);text-decoration:none}
+.remind{background:var(--warn)}.hotel{background:var(--green)}
+.outfit-card{background:#fff8fb}
+.outfit-card details summary{cursor:pointer;font-weight:700;font-size:14px;list-style:none}
+.outfit-card details summary::-webkit-details-marker{display:none}
+.outfit-card details summary::before{content:"＋ ";color:var(--accent)}
+.outfit-card details[open] summary::before{content:"－ "}
+.outfit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.outfit-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px;font-size:12px}
+.outfit-item b{display:block;margin-bottom:3px}
+@media(max-width:560px){.outfit-grid{grid-template-columns:1fr}}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(10px)}
+.bottom .inner{max-width:980px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:7px 10px calc(7px + env(safe-area-inset-bottom))}
+.bottom button{border:0;background:transparent;padding:8px 3px;color:var(--muted);font-size:12px}.bottom button.active{color:var(--accent);font-weight:700}
+.sheet{display:none;padding:0 12px}.sheet.active{display:block}.sheet .card{margin-top:4px}
+input,select,textarea{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:10px 11px;font-size:16px;background:white}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgap{display:grid;gap:10px}
+.primary{border:0;border-radius:12px;min-height:44px;background:var(--accent);color:#fff;font-weight:700;font-size:14px}
+.expense{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}.checks label{font-size:13px;display:flex;gap:8px;align-items:flex-start}.checks input{width:auto;min-height:auto;margin-top:2px}
+.note{margin:12px;color:var(--muted);font-size:11px;line-height:1.55}
+@media(max-width:560px){
+ .app{padding-bottom:78px}.hero{padding:15px 14px 8px}.topcard{margin:10px 10px}.work{padding:0 8px;gap:8px}.days{width:58px;flex-basis:58px}
+ .activity{align-items:flex-start}.photo{width:86px;height:76px}.grid2{grid-template-columns:1fr}.checks{grid-template-columns:1fr}
+ .title{font-size:14px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <h1>🇹🇭 小曾和小谭的泰国旅行记</h1>
+    <p>曼谷 × 清迈 · 2026.09.30 — 10.07</p><p style="margin-top:4px">⏱ 页面中的车程/游玩时长为行程预估，实际以当天交通、排队和天气为准。</p>
+  </header>
+
+  <section class="topcard">
+    <div class="row">
+      <div>
+        <div id="topTitle" class="title">10/1 周四 · 曼谷</div>
+        <div id="topHotel" class="desc">🏨 Maitria Hotel Sukhumvit 18</div>
+      </div>
+      <div class="weather">
+        <b id="topWeather">🌦 32/26℃</b>
+        <div id="topWear" class="small">短袖 + 长裤 + 小伞</div>
+      </div>
+    </div>
+    <div class="tools">
+      <a id="routeLink" target="_blank" rel="noopener">🗺 今日路线</a>
+      <button data-jump="money">💰 记一笔</button>
+      <button data-jump="prep">🧳 行前清单</button>
+    </div>
+  </section>
+
+  <div id="planView" class="work">
+    <aside class="days">
+      <button class="day" data-day="0">Day1<b>30</b>三</button>
+      <button class="day active" data-day="1">Day2<b>01</b>四</button>
+      <button class="day" data-day="2">Day3<b>02</b>五</button>
+      <button class="day" data-day="3">Day4<b>03</b>六</button>
+      <button class="day" data-day="4">Day5<b>04</b>日</button>
+      <button class="day" data-day="5">Day6<b>05</b>一</button>
+      <button class="day" data-day="6">Day7<b>06</b>二</button>
+      <button class="day" data-day="7">Day8<b>07</b>三</button>
+    </aside>
+
+    <main class="main">
+      <section class="panel" data-panel="0">
+        <div class="card"><span class="pill">天气</span><div class="title">曼谷约 31/25℃ · 多云雷阵雨</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：轻薄透气；飞机上备薄外套。</div></div>
+        <div class="card"><span class="pill">15:30</span><div class="title">🔔 开始进入出发模式</div><div class="desc">检查护照、入境资料、电话卡、充电宝、相机。</div></div>
+        <div class="card"><span class="pill">16:30</span><div class="title">🚌 深圳湾口岸 → 香港机场</div><div class="desc">已订 2 张成人票，预计 17:30 左右到机场。</div></div>
+        <div class="card"><span class="pill">20:20–22:05</span><div class="title">✈️ 香港国际机场 T2 → 曼谷廊曼国际机场 T1 · SL365</div></div>
+        <div class="card hotel"><div class="title">🏨 Maitria Hotel Sukhumvit 18 Bangkok</div><div class="desc">落地后直接入住休息，不再安排夜间活动。</div></div>
+      </section>
+
+      <section class="panel active" data-panel="1">
+        <div class="card"><span class="pill">今日天气</span><div class="title">🌦 32/26℃ · 上午可能有阵雨/雷雨</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：轻薄短袖 + 长裤（寺庙）+ 舒服鞋；带伞、防晒和水。</div></div>
+        <div class="card"><span class="pill">08:00 左右</span><div class="title">🚇 酒店 → 大皇宫：优先坐 MRT</div><div class="desc">从 Maitria Hotel 步行到 <b>MRT 素坤逸站</b> → 乘蓝线直达 <b>MRT 沙南猜站</b> → 再步行约 15 分钟到大皇宫。全程建议按 <b>40–50 分钟</b> 预留。工作日早高峰不建议直接打车穿城，时间波动会更大。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Maitria%20Hotel%20Sukhumvit%2018%20Bangkok&destination=The%20Grand%20Palace%20Bangkok&travelmode=transit">🚇 打开公共交通路线</a></div>
+        <div class="card activity">
+          <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/7/7f/Grand_Palace_Bangkok.jpg" alt="曼谷大皇宫">
+          <div><span class="pill">约 2h</span><div class="title">🛕 大皇宫</div><details class="intro"><summary>景点简介</summary><p>曼谷最具代表性的王室建筑群之一，以金色尖塔、精致壁画和传统泰式建筑闻名。第一次到曼谷很值得看，重点感受建筑细节和整体皇家氛围。</p></details><div class="desc">预计参观 2–2.5 小时；从酒店按 MRT 方案出发，到大皇宫整体约 40–50 分钟，时间比早高峰打车更可控。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=The%20Grand%20Palace%20Bangkok">📍 Google Maps</a></div>
+        </div>
+        <div class="card activity">
+          <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/%E0%B9%80%E0%B8%88%E0%B8%94%E0%B8%B5%E0%B8%A2%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%87%E0%B8%9B%E0%B8%A3%E0%B8%B2%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%AD%E0%B8%A3%E0%B8%B8%E0%B8%932.jpg" alt="郑王庙">
+          <div><span class="pill">约 1.5h</span><div class="title">🛕 郑王庙 Wat Arun</div><details class="intro"><summary>景点简介</summary><p>坐落在湄南河西岸，是曼谷最有辨识度的寺庙之一。中央高塔覆盖大量瓷片和彩色装饰，近看细节很丰富，河对岸远眺也非常漂亮。</p></details><div class="desc">大皇宫到码头 + 轮渡整体预留约 20–30 分钟；郑王庙预计参观 1–1.5 小时。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Wat%20Arun%20Bangkok">📍 Google Maps</a></div>
+        </div>
+        <div class="card"><span class="pill">傍晚</span><div class="title">🌇 湄南河日落</div><details class="intro"><summary>景点简介</summary><p>湄南河贯穿曼谷老城与现代城区，傍晚看船只、寺庙和城市天际线很有曼谷氛围。这里更适合放慢节奏，不需要当成一个“打卡点”。</p></details><div class="desc">建议预留 45–60 分钟，主要是休息、拍照和等天色。</div></div>
+        <div class="card"><span class="pill">晚上</span><div class="title">🛍️ 暹罗天地（ICONSIAM）</div><details class="intro"><summary>景点简介</summary><p>曼谷湄南河畔的大型商业综合体，集合商场、餐饮、室内水上市场风格空间和河景。适合把晚餐、逛街和休息放在一起解决。</p></details><div class="desc">从河岸区域过去约 20–35 分钟；吃饭 + 逛街建议预留 2–3 小时。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=ICONSIAM%20Bangkok">📍 Google Maps</a></div>
+        <div class="card remind"><div class="title">🔔 当日提醒</div><div class="desc">寺庙服装提前准备；大皇宫尽量上午；郑王庙不要压着闭园时间；下雨时减少河岸步行。</div></div>
+        <div class="card hotel"><div class="title">🏨 今晚继续住 Maitria Hotel Sukhumvit 18</div></div>
+      </section>
+
+      <section class="panel" data-panel="2">
+        <div class="card"><span class="pill">今日天气</span><div class="title">🌦 31/25℃ · 多云伴阵雨/雷雨</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：短袖 + 轻薄防晒外套 + 最舒服的步行鞋 + 小伞。</div></div>
+        <div class="card"><span class="pill">上午</span><div class="title">🌳 伦披尼公园</div><details class="intro"><summary>景点简介</summary><p>曼谷市中心的大型城市公园，绿地、湖面和步道很多，早上相对舒服。适合散步、看看当地人晨练，让这一天从比较松弛的状态开始。</p></details><div class="desc">酒店过去约 15–25 分钟；公园散步建议 1–1.5 小时。不放图片，避免加载问题。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Lumphini%20Park%20Bangkok">📍 Google Maps</a></div>
+        <div class="card"><span class="pill">下午</span><div class="title">🚶 石龙军路 → 嵩岳路</div><details class="intro"><summary>景点简介</summary><p>这一带是曼谷老街区的代表，老建筑、咖啡馆、小店和街头生活感比较强。适合边走边逛，不用刻意追求某一个固定打卡点。</p></details><div class="desc">从伦披尼公园过去约 25–35 分钟；石龙军路 + 嵩岳路 Citywalk 建议 2.5–3.5 小时。</div></div>
+        <div class="card activity">
+          <img class="photo" src="https://images.unsplash.com/photo-1679066277595-d2bef02d966a?auto=format&fit=crop&w=900&q=80" alt="曼谷唐人街">
+          <div><span class="pill">傍晚</span><div class="title">🏮 曼谷唐人街（耀华力路）</div><details class="intro"><summary>景点简介</summary><p>曼谷最热闹的老牌华人街区之一，傍晚以后霓虹灯、街头小吃和人流一起起来。重点不是“看景点”，而是吃东西、逛街和感受夜晚氛围。</p></details><div class="desc">从嵩岳路步行到唐人街约 10–15 分钟；唐人街建议逛吃 1.5–2 小时。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Yaowarat%20Road%20Bangkok">📍 Google Maps</a></div>
+        </div>
+        <div class="card"><span class="pill">晚上</span><div class="title">🍜 朱拉隆功夜市</div><details class="intro"><summary>景点简介</summary><p>更偏年轻化、日常感的夜间吃喝区域，适合安排晚饭和简单闲逛。和唐人街相比节奏没那么“观光”，更像当地年轻人的夜生活片区。</p></details><div class="desc">从唐人街过去约 15–25 分钟；夜市建议预留约 1.5 小时。</div></div>
+        <div class="card remind"><div class="title">🔔 当日提醒</div><div class="desc">今天属于 Citywalk，重点是舒服；晚上别太晚，第二天要飞清迈。</div></div>
+        <div class="card hotel"><div class="title">🏨 今晚继续住 Maitria Hotel Sukhumvit 18</div></div>
+      </section>
+
+      <section class="panel" data-panel="3">
+        <div class="card"><span class="pill">天气</span><div class="title">曼谷 32/26℃ → 清迈约 30/23℃ · 多云阵雨</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：轻便出行装 + 薄外套。</div></div>
+        <div class="card"><span class="pill">07:45</span><div class="title">🔔 退房 + 前往曼谷廊曼国际机场</div><div class="desc">建议 07:45–08:00 左右离开酒店。</div></div>
+        <div class="card"><span class="pill">11:05–12:20</span><div class="title">✈️ 曼谷廊曼国际机场 → 清迈国际机场 · SL508</div></div>
+        <div class="card hotel"><div class="title">🏨 Mai Hotel Chiang Mai</div><div class="desc">清迈国际机场到酒店通常约 15–20 分钟；到店放行李/整理预留 30–45 分钟。</div></div>
+        <div class="card activity">
+          <img class="photo" src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Tha_Phae_Gate_on_the_old_city_walls_%2814737657804%29.jpg" alt="清迈塔佩门">
+          <div><span class="pill">下午</span><div class="title">🏯 清迈古城 Citywalk</div><details class="intro"><summary>景点简介</summary><p>清迈古城被护城河和旧城墙遗迹环绕，寺庙、咖啡馆和小街集中在步行范围内。适合慢慢走，不需要把所有寺庙都看完，挑两三处重点即可。</p></details><div class="desc">古城整体建议 3–4 小时：塔佩门 20–30 分钟；寺庙单点约 30–45 分钟；点与点之间步行多为 10–20 分钟。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Tha%20Phae%20Gate%20Chiang%20Mai">📍 Google Maps</a></div>
+        </div>
+        <div class="card"><span class="pill">21:00–23:30</span><div class="title">🥊 泰拳</div><details class="intro"><summary>景点简介</summary><p>泰国最具代表性的格斗运动之一，现场比赛的仪式感、音乐和观众氛围都很有当地特色。比单纯看表演更适合当作一次“泰国夜生活体验”。</p></details></div>
+        <div class="card remind"><div class="title">🔔 当日提醒</div><div class="desc">飞行日下午只轻松逛古城，晚上还有泰拳。</div></div>
+      </section>
+
+      <section class="panel" data-panel="4">
+        <div class="card"><span class="pill">天气</span><div class="title">出发前再更新精确预报</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：速干运动装 + 运动鞋；建议带替换衣服。</div></div>
+        <div class="card"><span class="pill">08:00</span><div class="title">🌳 丛林飞跃</div><details class="intro"><summary>景点简介</summary><p>清迈周边很典型的户外体验项目，通常在山林中通过高空滑索、吊桥等线路穿梭。重点是刺激感和自然环境，建议穿方便活动、可以弄脏的衣服。</p></details><div class="desc">按当前计划 08:00 出发，约 13:00 后返回；活动 + 往返整体先按约 5–6 小时预留，最终以订单接送时间为准。</div></div>
+        <div class="card"><span class="pill">下午</span><div class="title">😴 酒店休息</div><div class="desc">建议至少休息 2–3 小时：洗澡、午睡、整理照片，不再塞新景点。</div></div>
+        <div class="card"><span class="pill">晚上</span><div class="title">🍜 宁曼吃饭 → 💆 马杀鸡</div><details class="intro"><summary>景点简介</summary><p>宁曼路是清迈较年轻、现代的生活街区，咖啡馆、餐厅、买手店和按摩店很集中。非常适合把“吃饭 + 随便逛 + 按摩”组合成一个轻松晚上。</p></details><div class="desc">宁曼吃饭/散步约 1.5–2 小时；按摩建议 1–1.5 小时，结束后直接回酒店。</div></div>
+        <div class="card hotel"><div class="title">🏨 Mai Hotel Chiang Mai</div></div>
+      </section>
+
+      <section class="panel" data-panel="5">
+        <div class="card"><span class="pill">天气</span><div class="title">出发前再更新精确预报</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：轻薄短袖 + 包脚鞋；下午带驱蚊和雨具。</div></div>
+        <div class="card"><span class="pill">上午</span><div class="title">🎯 实弹射击</div><details class="intro"><summary>景点简介</summary><p>属于体验型项目，实际内容会取决于最终选择的射击场、枪型和套餐。确定场地后再把安全说明、交通方式和体验时长补完整。</p></details><div class="desc">射击体验本身先按 1–1.5 小时预留；场地确定后再补交通时间、准确地址和出发时间。</div></div>
+        <div class="card"><span class="pill">约 15:00</span><div class="title">🦒 清迈夜间动物园</div><details class="intro"><summary>景点简介</summary><p>以夜间观察动物为特色，通常会结合观光车、步行区域和夜间动物展示。比较适合下午后半段入园，一直玩到天黑以后。</p></details><div class="desc">建议预留 3–4 小时，包含入园、乘车/步行和晚间动物活动。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Chiang%20Mai%20Night%20Safari">📍 Google Maps</a></div>
+        <div class="card remind"><div class="title">🔔 当日提醒</div><div class="desc">射击场优先选与夜间动物园顺路、接送方便的。</div></div>
+        <div class="card hotel"><div class="title">🏨 Mai Hotel Chiang Mai</div></div>
+      </section>
+
+      <section class="panel" data-panel="6">
+        <div class="card"><span class="pill">天气</span><div class="title">出发前再更新精确预报</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div><div class="desc">穿衣：轻薄休闲装 + 舒服鞋，上午散步，下午赶飞机。</div></div>
+        <div class="card"><span class="pill">上午</span><div class="title">🌿 乌蒙寺 → 🎨 班康瓦艺术村</div><details class="intro"><summary>景点简介</summary><p>乌蒙寺是一座藏在树林中的古寺，以隧道式佛塔空间和安静氛围著称；班康瓦艺术村则是清迈很有生活感的创意社区，有手作店、咖啡和小型工作室。两处风格不同但方向顺路，很适合连着安排。</p></details><div class="desc">酒店到乌蒙寺约 15–20 分钟；乌蒙寺建议 1–1.5 小时。乌蒙寺到班康瓦艺术村约 5–10 分钟，艺术村建议 1.5–2 小时；乌蒙寺和班康瓦艺术村两个点同方向，适合连着逛。</div><a class="mapbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Wat%20Umong%20Chiang%20Mai&destination=Baan%20Kang%20Wat%20Chiang%20Mai">📍 Google Maps</a></div>
+        <div class="card"><span class="pill">中午</span><div class="title">☕ 午饭 / 咖啡 → 回宁曼取行李</div><div class="desc">午饭/咖啡预留 1–1.5 小时；从班康瓦艺术村回酒店约 10–15 分钟。</div></div>
+        <div class="card"><span class="pill">15:15</span><div class="title">🔔 开始收尾去机场</div><div class="desc">15:45–16:00 左右从酒店出发；酒店到清迈国际机场通常约 15–20 分钟。</div></div>
+        <div class="card"><span class="pill">18:25–19:45</span><div class="title">✈️ 清迈国际机场 → 曼谷素万那普国际机场 · FD4109</div></div>
+        <div class="card hotel"><div class="title">🏨 At Residence Suvarnabhumi</div></div>
+      </section>
+
+      <section class="panel" data-panel="7">
+        <div class="card"><span class="pill">穿衣</span><div class="title">舒服的机场穿搭 + 薄外套</div><div class="card outfit-card"><details><summary>👗 今日穿搭（待整理）</summary><div class="outfit-grid"><div class="outfit-item"><b>上装</b>待补充</div><div class="outfit-item"><b>下装</b>待补充</div><div class="outfit-item"><b>鞋子</b>待补充</div><div class="outfit-item"><b>配饰 / 包</b>待补充</div></div><div class="desc" style="margin-top:8px">之后可以放当天完整 Look、搭配照片，以及“寺庙 / 户外 / 飞机”等场景备注。</div></details></div></div>
+        <div class="card"><span class="pill">06:40</span><div class="title">🔔 起床 / 洗漱 / 退房</div><div class="desc">原来的 06:20 偏保守，可以晚约 20 分钟起床；如果你们还想在酒店慢慢吃早餐，就保留 06:20。</div></div>
+        <div class="card"><span class="pill">07:15</span><div class="title">🚕 At Residence 酒店 → 曼谷素万那普国际机场</div><div class="desc">酒店距机场约 8–9.4 公里；酒店官网写约 10 分钟车程，Google 酒店信息显示约 17 分钟。按路况留余量，预计 07:30–07:45 抵达。</div></div>
+        <div class="card remind"><div class="title">⏰ 为什么这样安排</div><div class="desc">航班 10:10 起飞。香港快运建议至少提前 2 小时到值机柜台；曼谷素万那普机场柜台通常提前 3 小时开放、起飞前 1 小时关闭。07:30–07:45 到机场属于比较从容但不用过度早起的节奏。</div></div>
+        <div class="card"><span class="pill">10:10–14:20</span><div class="title">✈️ 曼谷素万那普国际机场 → 香港国际机场 · UO705</div></div>
+        <div class="card"><div class="title">🏠 香港 → 深圳</div></div>
+      </section>
+    </main>
+  </div>
+
+  <section id="moneyView" class="sheet">
+    <div class="card">
+      <div class="title">💰 简单记账</div>
+      <div class="desc">只记流水：项目、金额、币种、谁付的、备注。数据保存在当前设备浏览器里。</div>
+      <form id="ledgerForm" class="formgap" style="margin-top:14px">
+        <div class="grid2"><input id="expItem" maxlength="40" required placeholder="项目，例如：Grab / 晚餐 / 马杀鸡"><select id="expPayer"><option>丹璇</option><option>男朋友</option></select></div>
+        <div class="grid2"><input id="expAmount" required inputmode="decimal" placeholder="金额"><select id="expCurrency"><option>THB</option><option>CNY</option><option>HKD</option></select></div>
+        <input id="expNote" maxlength="60" placeholder="备注（可选）">
+        <button class="primary" type="submit">＋ 记一笔</button>
+      </form>
+      <div id="ledgerList" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <section id="prepView" class="sheet">
+    <div class="card">
+      <div class="title">🧳 行前 Checklist</div>
+      <div class="desc">勾选状态会保存在当前浏览器。</div>
+      <div id="checkList" class="checks" style="margin-top:14px">
+        <label><input type="checkbox" data-key="passport"> 护照</label>
+        <label><input type="checkbox" data-key="cash"> 现金（泰铢 + 人民币）</label>
+        <label><input type="checkbox" data-key="visa"> Visa</label>
+        <label><input type="checkbox" data-key="arrival"> 入境申请表</label>
+        <label><input type="checkbox" data-key="sim"> 电话卡（未激活）</label>
+        <label><input type="checkbox" data-key="camera"> 相机</label>
+        <label><input type="checkbox" data-key="power"> 充电宝</label>
+        <label><input type="checkbox" data-key="earphones"> 耳机</label>
+        <label><input type="checkbox" data-key="adapter"> 转换插头</label>
+        <label><input type="checkbox" data-key="neck"> 颈枕</label>
+        <label><input type="checkbox" data-key="waist"> 腰枕</label>
+        <label><input type="checkbox" data-key="fan"> 小风扇</label>
+        <label><input type="checkbox" data-key="slippers"> 拖鞋</label>
+        <label><input type="checkbox" data-key="toiletries"> 牙膏牙刷</label>
+        <label><input type="checkbox" data-key="soap"> 小香皂</label>
+        <label><input type="checkbox" data-key="bodywash"> 沐浴露</label>
+        <label><input type="checkbox" data-key="shampoo"> 洗发水</label>
+        <label><input type="checkbox" data-key="minoxidil"> 给小谭灌满米诺地尔便携装</label>
+        <label><input type="checkbox" data-key="towel"> 速干毛巾</label>
+        <label><input type="checkbox" data-key="trashbags"> 垃圾袋（收纳脏衣服）</label>
+        <label><input type="checkbox" data-key="face"> 洗脸巾</label>
+        <label><input type="checkbox" data-key="wet"> 湿巾</label>
+        <label><input type="checkbox" data-key="underwear"> 一次性内裤</label>
+        <label><input type="checkbox" data-key="sun"> 防晒霜 / 防晒外套</label>
+        <label><input type="checkbox" data-key="hat"> 遮阳帽 / 帽子</label>
+        <label><input type="checkbox" data-key="hairtie"> 头绳</label>
+        <label><input type="checkbox" data-key="hairclip"> 发夹</label>
+        <label><input type="checkbox" data-key="umbrella"> 遮阳伞</label>
+        <label><input type="checkbox" data-key="glasses"> 墨镜</label>
+        <label><input type="checkbox" data-key="goldwatch"> 金色手表</label>
+        <label><input type="checkbox" data-key="silverearrings"> 银色耳环</label>
+        <label><input type="checkbox" data-key="mask"> 口罩</label>
+        <label><input type="checkbox" data-key="medicine"> 常用药</label>
+        <label><input type="checkbox" data-key="cup"> 小水杯</label>
+        <label><input type="checkbox" data-key="kettle"> 烧水壶</label>
+        <label><input type="checkbox" data-key="filter"> 过滤花洒</label>
+        <label><input type="checkbox" data-key="print"> 打印登机牌和酒店行程单</label>
+        <label><input type="checkbox" data-key="private"> 润滑液和安全套</label>
+      </div>
+      <div class="card remind" style="margin-top:14px;margin-bottom:0"><div class="title">⚠️ 旅行注意</div><div class="desc">寺庙不能穿短裤短裙；酒店内不要带榴莲和山竹进去吃。</div></div>
+    </div>
+  </section>
+
+  <div class="note">
+    这是私人使用的单文件版本。记账和勾选数据只保存在你打开它的那台设备浏览器里，不会上传到服务器，也不会在两台手机之间自动同步。
+  </div>
+</div>
+
+<nav class="bottom">
+  <div class="inner">
+    <button class="bottomBtn active" data-view="plan">🗓<br>行程</button>
+    <button class="bottomBtn" data-view="map">📍<br>地图</button>
+    <button class="bottomBtn" data-view="money">💰<br>记账</button>
+    <button class="bottomBtn" data-view="prep">🧳<br>清单</button>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const dayMeta = {
+0:{t:"9/30 周三 · 出发",h:"深圳 → 香港国际机场 → 曼谷",w:"🌦 曼谷约31/25℃",wear:"轻薄出行装 + 薄外套",map:"https://www.google.com/maps/search/?api=1&query=Hong%20Kong%20International%20Airport"},
+1:{t:"10/1 周四 · 曼谷",h:"🏨 Maitria Hotel Sukhumvit 18",w:"🌦 32/26℃",wear:"短袖 + 长裤 + 小伞",map:"https://www.google.com/maps/dir/?api=1&origin=Maitria%20Hotel%20Sukhumvit%2018%20Bangkok&destination=The%20Grand%20Palace%20Bangkok&travelmode=transit"},
+2:{t:"10/2 周五 · 曼谷",h:"🏨 Maitria Hotel Sukhumvit 18",w:"🌦 31/25℃",wear:"Citywalk轻装 + 小伞",map:"https://www.google.com/maps/dir/?api=1&origin=Lumphini%20Park%20Bangkok&destination=Yaowarat%20Road%20Bangkok&waypoints=Song%20Wat%20Road%20Bangkok"},
+3:{t:"10/3 周六 · 曼谷 → 清迈",h:"🏨 Mai Hotel Chiang Mai",w:"🌦 清迈约30/23℃",wear:"轻便出行装 + 薄外套",map:"https://www.google.com/maps/search/?api=1&query=Tha%20Phae%20Gate%20Chiang%20Mai"},
+4:{t:"10/4 周日 · 清迈",h:"🏨 Mai Hotel Chiang Mai",w:"🌦 临近出发更新",wear:"速干运动装 + 运动鞋",map:"https://www.google.com/maps/search/?api=1&query=Nimman%20Road%20Chiang%20Mai"},
+5:{t:"10/5 周一 · 清迈",h:"🏨 Mai Hotel Chiang Mai",w:"🌦 临近出发更新",wear:"轻薄短袖 + 包脚鞋",map:"https://www.google.com/maps/search/?api=1&query=Chiang%20Mai%20Night%20Safari"},
+6:{t:"10/6 周二 · 清迈 → 曼谷",h:"🏨 At Residence Suvarnabhumi（素万那普机场附近）",w:"🌦 临近出发更新",wear:"轻薄休闲装",map:"https://www.google.com/maps/dir/?api=1&origin=Mai%20Hotel%20Chiang%20Mai&destination=Chiang%20Mai%20International%20Airport&waypoints=Wat%20Umong%20Chiang%20Mai%7CBaan%20Kang%20Wat%20Chiang%20Mai"},
+7:{t:"10/7 周三 · 返程",h:"曼谷素万那普国际机场 → 香港国际机场 → 深圳",w:"🌦 临近出发更新",wear:"机场舒适穿搭 + 薄外套",map:"https://www.google.com/maps/search/?api=1&query=Suvarnabhumi%20Airport"}
+};
+let currentDay = Number(localStorage.getItem("thaiTripDay") || 1);
+const dayBtns=[...document.querySelectorAll(".day")], panels=[...document.querySelectorAll(".panel")];
+function showDay(d){
+ currentDay=Number(d); localStorage.setItem("thaiTripDay",currentDay);
+ dayBtns.forEach(b=>b.classList.toggle("active",Number(b.dataset.day)===currentDay));
+ panels.forEach(p=>p.classList.toggle("active",Number(p.dataset.panel)===currentDay));
+ const m=dayMeta[currentDay];
+ document.getElementById("topTitle").textContent=m.t;
+ document.getElementById("topHotel").textContent=m.h;
+ document.getElementById("topWeather").textContent=m.w;
+ document.getElementById("topWear").textContent=m.wear;
+ document.getElementById("routeLink").href=m.map;
+}
+dayBtns.forEach(b=>b.addEventListener("click",()=>{showView("plan");showDay(b.dataset.day)}));
+showDay(currentDay);
+
+const plan=document.getElementById("planView"), money=document.getElementById("moneyView"), prep=document.getElementById("prepView");
+const bottomBtns=[...document.querySelectorAll(".bottomBtn")];
+function showView(v){
+ plan.style.display=v==="plan"?"flex":"none";
+ money.classList.toggle("active",v==="money");
+ prep.classList.toggle("active",v==="prep");
+ bottomBtns.forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+ if(v==="map") window.open(dayMeta[currentDay].map,"_blank");
+}
+bottomBtns.forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+document.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.jump)));
+
+const SUPABASE_URL="https://pahpaltcmpcxfrvrfeac.supabase.co";
+const SUPABASE_KEY="sb_publishable_ZG5SEtssneTHwmvaGb7cxw_MM0cQxIz";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let ledger=[];
+const ledgerList=document.getElementById("ledgerList");
+function escapeHtml(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function renderLedger(){
+ ledgerList.innerHTML=ledger.length?"":"<div class='desc'>还没有记录。</div>";
+ [...ledger].reverse().forEach(r=>{
+   const row=document.createElement("div"); row.className="expense";
+   const left=document.createElement("div"); left.innerHTML="<b>"+escapeHtml(r.item)+"</b><div class='small'>"+escapeHtml(r.payer)+(r.note?" · "+escapeHtml(r.note):"")+"</div>";
+   const right=document.createElement("div"); right.innerHTML="<b>"+escapeHtml(r.currency)+" "+Number(r.amount).toLocaleString()+"</b><br><button data-del='"+r.id+"' style='border:0;background:none;color:#999;padding:5px 0'>删除</button>";
+   row.append(left,right); ledgerList.append(row);
+ });
+ ledgerList.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",async()=>{await sb.from("expenses").delete().eq("id",Number(b.dataset.del));await loadLedger()}));
+}
+async function loadLedger(){
+ const {data,error}=await sb.from("expenses").select("*").order("created_at",{ascending:true});
+ if(!error){ledger=data||[];renderLedger()} else ledgerList.innerHTML="<div class='desc'>云端连接失败，请稍后刷新。</div>";
+}
+document.getElementById("ledgerForm").addEventListener("submit",async e=>{
+ e.preventDefault(); const item=document.getElementById("expItem").value.trim(), amount=Number(document.getElementById("expAmount").value);
+ if(!item||!Number.isFinite(amount)||amount<=0)return;
+ const {error}=await sb.from("expenses").insert({item,amount,currency:document.getElementById("expCurrency").value,payer:document.getElementById("expPayer").value,note:document.getElementById("expNote").value.trim()});
+ if(!error){e.target.reset();await loadLedger()} else alert("记账同步失败，请稍后再试");
+});
+
+async function loadChecks(){
+ const {data,error}=await sb.from("checklist").select("*"); if(error)return;
+ const map=Object.fromEntries((data||[]).map(x=>[x.item,x]));
+ document.querySelectorAll("#checkList input[type=checkbox]").forEach(c=>{c.checked=!!map[c.dataset.key]?.checked});
+}
+document.querySelectorAll("#checkList input[type=checkbox]").forEach(c=>{
+ c.addEventListener("change",async()=>{
+   const key=c.dataset.key;
+   const {data}=await sb.from("checklist").select("id").eq("item",key).limit(1);
+   if(data&&data.length) await sb.from("checklist").update({checked:c.checked,updated_at:new Date().toISOString()}).eq("id",data[0].id);
+   else await sb.from("checklist").insert({item:key,category:"行前清单",checked:c.checked});
+ });
+});
+
+sb.channel("trip-sync")
+ .on("postgres_changes",{event:"*",schema:"public",table:"expenses"},()=>loadLedger())
+ .on("postgres_changes",{event:"*",schema:"public",table:"checklist"},()=>loadChecks())
+ .subscribe();
+loadLedger(); loadChecks();
+</script>
+</body>
+</html>
