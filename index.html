@@ -192,7 +192,7 @@ input,select,textarea{width:100%;min-height:44px;border:1px solid var(--line);bo
   <section id="moneyView" class="sheet">
     <div class="card">
       <div class="title">💰 简单记账</div>
-      <div class="desc">只记流水：项目、金额、币种、谁付的、备注。数据保存在当前设备浏览器里。</div>
+      <div class="desc">只记流水：项目、金额、币种、谁付的、备注。数据保存到云端，联网后可在两台设备之间同步。</div>
       <form id="ledgerForm" class="formgap" style="margin-top:14px">
         <div class="grid2"><input id="expItem" maxlength="40" required placeholder="项目，例如：Grab / 晚餐 / 马杀鸡"><select id="expPayer"><option>丹璇</option><option>男朋友</option></select></div>
         <div class="grid2"><input id="expAmount" required inputmode="decimal" placeholder="金额"><select id="expCurrency"><option>THB</option><option>CNY</option><option>HKD</option></select></div>
@@ -252,7 +252,7 @@ input,select,textarea{width:100%;min-height:44px;border:1px solid var(--line);bo
   </section>
 
   <div class="note">
-    这是私人使用的单文件版本。记账和勾选数据只保存在你打开它的那台设备浏览器里，不会上传到服务器，也不会在两台手机之间自动同步。
+    记账和清单通过 Supabase 云端保存，并在联网时同步。请确认保存成功后再关闭页面。
   </div>
 </div>
 
@@ -305,7 +305,7 @@ function showView(v){
 bottomBtns.forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
 document.querySelectorAll("[data-jump]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.jump)));
 
-const SUPABASE_URL="https://pahpaltcmpcxfrvrfeac.supabase.co";
+const SUPABASE_URL="https://pahnaltcmpcxfrvrfeac.supabase.co";
 const SUPABASE_KEY="sb_publishable_ZG5SEtssneTHwmvaGb7cxw_MM0cQxIz";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let ledger=[];
